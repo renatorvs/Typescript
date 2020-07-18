@@ -1,0 +1,43 @@
+para rodar typescript baixa node instale ele e baixe o typescript@X.X.X,
+aponte aonde ele ira convertes o arquivo ts para js no package json ou ts config e o app.ts sera o core da aplicação
+
+
+============package.json
+  "name": "alurabank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "watch": "tsc -w",
+    "server": "lite-server --baseDir=app",
+    "start": "concurrently \"npm run watch\" \"npm run server\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jquery": "^2.0.42",
+    "concurrently": "^3.4.0",
+    "lite-server": "^2.3.0",
+    "typescript": "^2.3.2"
+  }
+}
+
+==================tsconfig.json
+
+{
+    "compilerOptions": {
+        "target": "es6",
+        "outDir": "app/js", (arquivo convertido de ts para js aqui)
+        "noEmitOnError": true,
+        "noImplicitAny": true, (any indefinido)
+         "removeComments": true,(remove comentarios )
+        "module": "system", ( loader do typescript externo (ajax (servidor vai precisar)))
+         "strictNullChecks": true,
+                 "experimentalDecorators": true
+    },
+    "include": [
+        "app/ts/**/*"  (arquivo core)
+    ]
+}
