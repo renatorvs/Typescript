@@ -1,5 +1,5 @@
 import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacao, Negociacoes } from '../models/index';
+import { Negociacao, Negociacoes, NegociacoesStorage } from '../models/index';
 import { domInject, throttle } from '../helpers/decorators/index';
 import { NegociacaoParcial } from '../models/index';
 import { NegociacaoService } from '../services/index';
@@ -16,7 +16,8 @@ export class NegociacaoController {
     @domInject('#valor')
     private _inputValor: JQuery;
     
-    private _negociacoes = new Negociacoes();
+    private _storage = new NegociacoesStorage();
+    private _negociacoes = this._storage.obterNegociacoes();
     private _negociacoesView = new NegociacoesView('#negociacoesView');
     private _mensagemView = new MensagemView('#mensagemView');
 
@@ -46,6 +47,7 @@ export class NegociacaoController {
 
         imprime(negociacao, this._negociacoes);
 
+        this._storage.salvar(this._negociacoes);
         this._negociacoesView.update(this._negociacoes);
         this._mensagemView.update('Negociação adicionada com sucesso!');
     }
@@ -79,6 +81,7 @@ export class NegociacaoController {
                 .forEach(negociacao => 
                 this._negociacoes.adiciona(negociacao));
 
+            this._storage.salvar(this._negociacoes);
             this._negociacoesView.update(this._negociacoes);
 
         } catch(err) {
